@@ -1,18 +1,43 @@
 {
   "name": "turkish-profile",
-  "version": "1.0.0",
-  "description": "Random Turkish profile/name generator with realistic probabilities",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "node test/script.js"
-  },
+  "version": "2.0.0",
+  "private": false,
+  "description": "Random Turkish name/profile generator with realistic probabilities",
   "keywords": [
     "turkish name",
     "random name generator",
     "random profile",
-	"turkish name list",
-	"Turkish profile"
+    "turkish name list",
+    "Turkish profile"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mahelbir/turkish-profile.git"
+  },
   "author": "Mahmuthan Elbir",
-  "license": "MIT"
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "lib/**/*",
+    "resources/*"
+  ],
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
+  },
+  "scripts": {
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "cross-env BABEL_ENV=esm babel ./src --out-dir ./lib/esm",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel ./src --out-dir ./lib/cjs",
+    "test": "node test/script.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "babel-plugin-transform-import-meta": "^2.2.1",
+    "cross-env": "^7.0.3"
+  }
 }

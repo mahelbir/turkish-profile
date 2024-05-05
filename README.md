@@ -1,6 +1,7 @@
 # Turkish Profile
 
-Random Turkish profile generator with realistic probabilities. You can generate name, email and password randomly or gender-specific.
+Random Turkish profile generator with realistic probabilities, capable of generating names, emails, and passwords either
+randomly or based on gender
 
 ## Installation
 
@@ -13,72 +14,53 @@ npm i turkish-profile
 ## Usage
 
 ```javascript
-const {getFirstName, getLastName, getFullName, getProfile} = require('turkish-profile');
+// const {getFirstName, getLastName, getFullName, getProfile} = require("turkish-profile");
+import {getFirstName, getFullName, getLastName, getProfile} from "turkish-profile";
+
 
 console.log("===== RANDOM =====")
-console.log("FIRST NAME:", getFirstName())
-console.log("LAST NAME:", getLastName())
-console.log("FULL NAME:", getFullName())
-console.log("PROFILE:")
-console.log(getProfile());
+console.log("First Name:", getFirstName());
+console.log("Last Name:", getLastName());
+console.log("Full Name:", getFullName());
+console.log("Profile:", getProfile());
 
-console.log("===== MALE =====")
-console.log("FIRST NAME:", getFirstName('male'))
-console.log("FULL NAME:", getFullName('male'))
-console.log("PROFILE:")
-console.log(getProfile('male'));
-
-console.log("===== FEMALE =====")
-console.log("FIRST NAME:", getFirstName('female'))
-console.log("FULL NAME:", getFullName('female'))
-console.log("PROFILE:")
-console.log(getProfile('female'));
+console.log("===== OPTIONS =====")
+console.log("First Name:", getFirstName("male"));
+console.log("Last Name:", getLastName());
+console.log("Full Name:", getFullName("female"));
+console.log("Profile:", getProfile("male", 16));
 
 /*
 ===== RANDOM =====
-FIRST NAME: NURCAN
-LAST NAME: DEMIRAL
-FULL NAME: ALI AKGUN
-PROFILE:
-{
-  firstName: 'CANSU',
-  lastName: 'TOKTAS',
-  fullName: 'CANSU TOKTAS',
+First Name: HARUN
+Last Name: ALTAY
+Full Name: GONUL SURER
+Profile: {
+  firstName: 'SAFFET',
+  lastName: 'USTUN',
+  fullName: 'SAFFET USTUN',
   gender: 'female',
-  username: 'cansutoktas8997',
-  email: 'cansutoktas8997@gmail.com',
-  password: 'Sdb642f73'
-}
-===== MALE =====
-FIRST NAME: MEHMET
-FULL NAME: NURULLAH YERGIN
-PROFILE:
-{
-  firstName: 'YILMAZ',
-  lastName: 'AKSOY',
-  fullName: 'YILMAZ AKSOY',
-  gender: 'male',
-  username: 'yilmazaksoy4151',
-  email: 'yilmazaksoy4151@outlook.com',
-  password: 'Md3204d08'
-}
-===== FEMALE =====
-FIRST NAME: IKBAL
-FULL NAME: SENAY ASCI
-PROFILE:
-{
-  firstName: 'CENNET',
-  lastName: 'SAHINBAS',
-  fullName: 'CENNET SAHINBAS',
-  gender: 'female',
-  username: 'cennetsahin1294',
-  email: 'cennetsahin1294@gmail.com',
-  password: 'A1acb47d8'
+  username: 'saffetustun8659',
+  email: 'saffetustun8659@outlook.com',
+  password: 'Na0e789a3'
 }
 
+===== OPTIONS =====
+First Name: HALIL
+Last Name: GERENLI
+Full Name: ARIF TAPAN
+Profile: {
+  firstName: 'NAIL',
+  lastName: 'KARA',
+  fullName: 'NAIL KARA',
+  gender: 'male',
+  username: 'nailkara6939',
+  email: 'nailkara6939@outlook.com',
+  password: 'I3722a305a65f3ffe' // 16 characters
+}
  */
 ```
 
 ## License
 
-The MIT License (MIT). Please see [License File](LISENCE) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

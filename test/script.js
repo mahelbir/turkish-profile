@@ -1,20 +1,13 @@
-const {getFirstName, getLastName, getFullName, getProfile} = require('../src/index');
+import {getFirstName, getLastName, getFullName, getProfile} from "../src/index.js";
 
 console.log("===== RANDOM =====")
-console.log("FIRST NAME:", getFirstName())
-console.log("LAST NAME:", getLastName())
-console.log("FULL NAME:", getFullName())
-console.log("PROFILE:")
-console.log(getProfile());
+console.log("First Name:", getFirstName());
+console.log("Last Name:", getLastName());
+console.log("Full Name:", getFullName());
+console.log("Profile:", getProfile());
 
-console.log("===== MALE =====")
-console.log("FIRST NAME:", getFirstName('male'))
-console.log("FULL NAME:", getFullName('male'))
-console.log("PROFILE:")
-console.log(getProfile('male'));
-
-console.log("===== FEMALE =====")
-console.log("FIRST NAME:", getFirstName('female'))
-console.log("FULL NAME:", getFullName('female'))
-console.log("PROFILE:")
-console.log(getProfile('female'));
+console.log("===== OPTIONS =====")
+console.log("First Name:", getFirstName("male"));
+console.log("Last Name:", getLastName());
+console.log("Full Name:", getFullName("female"));
+console.log("Profile:", getProfile("male", 16));

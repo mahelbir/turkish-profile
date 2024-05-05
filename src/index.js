@@ -1,10 +1,9 @@
-const { readFileSync } = require('fs');
-const { resolve, dirname } = require('path');
-const { randomInt, randomBytes } = require('crypto');
+import path from "path";
+import {readFileSync, existsSync} from "fs";
+import {randomInt, randomBytes} from "crypto";
 
-function fullPath(filename) {
-    return resolve(__dirname, filename);
-}
+import paths from "./paths.js";
+
 
 const FILES = {
     'first:male': fullPath('male_first.csv'),
@@ -12,7 +11,14 @@ const FILES = {
     'last': fullPath('all_last.csv'),
 };
 
-function getName(filename) {
+function fullPath(filename) {
+    const dir = path.join(paths.dirname, "../../resources");
+    if (existsSync(dir))
+        return path.join(dir, filename);
+    return path.join(paths.dirname, "../resources", filename);
+}
+
+function getLine(filename) {
     let selected = Math.random();
     let nameFile = readFileSync(filename, 'utf-8').split('\n');
     nameFile.shift();
@@ -36,40 +42,35 @@ function getEmail(username) {
     return username + "@" + domains[randomInt(0, 3)];
 }
 
-function getPassword(letters = null) {
-    const length = 8;
-    const hex = randomBytes(Math.ceil(length / 2))
-        .toString('hex')
-        .slice(0, length);
+function getPassword(letters = null, length) {
+    const hex = randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
     const first = letters?.[randomInt(0, letters?.length)]?.toUpperCase() || 'A';
     return first + hex;
 }
 
-function selectGender(gender) {
-    if (!gender) {
-        gender = Math.random() < 0.5 ? 'male' : 'female';
-    }
+function chooseGender(gender) {
+    gender = gender || Math.random() <= 0.5 ? 'male' : 'female';
     if (gender !== 'male' && gender !== 'female') {
         throw new Error("Only 'male' and 'female' are supported as gender");
     }
     return gender;
 }
 
-function getFirstName(gender = null) {
-    gender = selectGender(gender);
-    return getName(FILES['first:' + gender]);
+export function getFirstName(gender = null) {
+    gender = chooseGender(gender);
+    return getLine(FILES['first:' + gender]);
 }
 
-function getLastName() {
-    return getName(FILES['last']);
+export function getLastName() {
+    return getLine(FILES['last']);
 }
 
-function getFullName(gender = null) {
+export function getFullName(gender = null) {
     return `${getFirstName(gender)} ${getLastName()}`;
 }
 
-function getProfile(gender = null) {
-    gender = selectGender(gender);
+export function getProfile(gender = null, passwordLength = 8) {
+    gender = chooseGender(gender);
     const firstName = getFirstName(gender);
     const lastName = getLastName();
     const fullName = `${firstName} ${lastName}`;
@@ -82,13 +83,6 @@ function getProfile(gender = null) {
         gender,
         username,
         email: getEmail(username),
-        password: getPassword(fullName.replaceAll(' ', '').toLowerCase())
+        password: getPassword(fullName.replaceAll(' ', '').toLowerCase(), passwordLength)
     }
 }
-
-module.exports = {
-    getFirstName,
-    getLastName,
-    getFullName,
-    getProfile
-};
