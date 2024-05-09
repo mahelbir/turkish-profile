@@ -10,4 +10,4 @@ console.log("===== OPTIONS =====")
 console.log("First Name:", getFirstName("male"));
 console.log("Last Name:", getLastName());
 console.log("Full Name:", getFullName("female"));
-console.log("Profile:", getProfile("male", 16));
+console.log("Profile:", getProfile("female", 16));

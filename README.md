@@ -32,31 +32,30 @@ console.log("Profile:", getProfile("male", 16));
 
 /*
 ===== RANDOM =====
-First Name: HARUN
-Last Name: ALTAY
-Full Name: GONUL SURER
+First Name: ORHAN
+Last Name: BEKIROGLU
+Full Name: AYSE KULA
 Profile: {
-  firstName: 'SAFFET',
-  lastName: 'USTUN',
-  fullName: 'SAFFET USTUN',
-  gender: 'female',
-  username: 'saffetustun8659',
-  email: 'saffetustun8659@outlook.com',
-  password: 'Na0e789a3'
+  firstName: 'AHMET',
+  lastName: 'ORAK',
+  fullName: 'AHMET ORAK',
+  gender: 'male',
+  username: 'ahmetorak4481',
+  email: 'ahmetorak4481@hotmail.com',
+  password: 'Ob30c80cb'
 }
-
 ===== OPTIONS =====
 First Name: HALIL
-Last Name: GERENLI
-Full Name: ARIF TAPAN
+Last Name: YARDIMCI
+Full Name: ZEYNEP ACAR
 Profile: {
-  firstName: 'NAIL',
-  lastName: 'KARA',
-  fullName: 'NAIL KARA',
-  gender: 'male',
-  username: 'nailkara6939',
-  email: 'nailkara6939@outlook.com',
-  password: 'I3722a305a65f3ffe' // 16 characters
+  firstName: 'FERIDE',
+  lastName: 'COLAK',
+  fullName: 'FERIDE COLAK',
+  gender: 'female',
+  username: 'feridecolak1516',
+  email: 'feridecolak1516@gmail.com',
+  password: 'E07044caaa6717262' // 16 characters
 }
  */
 ```

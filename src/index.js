@@ -49,7 +49,7 @@ function getPassword(letters = null, length) {
 }
 
 function chooseGender(gender) {
-    gender = gender || Math.random() <= 0.5 ? 'male' : 'female';
+    gender = gender || (randomInt(1) === 1 ? 'male' : 'female');
     if (gender !== 'male' && gender !== 'female') {
         throw new Error("Only 'male' and 'female' are supported as gender");
     }
