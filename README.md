@@ -1,11 +1,8 @@
 # Turkish Profile
 
-Random Turkish profile generator with realistic probabilities, capable of generating names, emails, and passwords either
-randomly or based on gender
+Random Turkish name, username, and password generator with realistic frequency distributions. Optional gender filtering and seed-based reproducibility.
 
 ## Installation
-
-To install use npm:
 
 ```bash
 npm i turkish-profile
@@ -14,51 +11,72 @@ npm i turkish-profile
 ## Usage
 
 ```javascript
-// const {getFirstName, getLastName, getFullName, getProfile} = require("turkish-profile");
-import {getFirstName, getFullName, getLastName, getProfile} from "turkish-profile";
+// ECMAScript Modules
+import {getFirstName, getLastName, getFullName, getUsername, getPassword, getProfile} from "turkish-profile";
 
+// CommonJS
+const {getFirstName, getLastName, getFullName, getUsername, getPassword, getProfile} = require("turkish-profile");
 
-console.log("===== RANDOM =====")
-console.log("First Name:", getFirstName());
-console.log("Last Name:", getLastName());
-console.log("Full Name:", getFullName());
-console.log("Profile:", getProfile());
-
-console.log("===== OPTIONS =====")
-console.log("First Name:", getFirstName("male"));
-console.log("Last Name:", getLastName());
-console.log("Full Name:", getFullName("female"));
-console.log("Profile:", getProfile("male", 16));
-
+getFirstName();                               // random first name
+getFirstName({gender: "male"});               // male first name
+getLastName();                                // random last name
+getFullName({gender: "female"});              // female full name
+getUsername();                                // e.g. "hasandemir4839"
+getPassword({length: 16, special: true});     // 16-char password incl. specials
+getProfile();
 /*
-===== RANDOM =====
-First Name: ORHAN
-Last Name: BEKIROGLU
-Full Name: AYSE KULA
-Profile: {
-  firstName: 'AHMET',
-  lastName: 'ORAK',
-  fullName: 'AHMET ORAK',
-  gender: 'male',
-  username: 'ahmetorak4481',
-  email: 'ahmetorak4481@hotmail.com',
-  password: 'Ob30c80cb'
+{
+  firstName: "Hasan",
+  lastName: "Kaya",
+  fullName: "Hasan Kaya",
+  gender: "male",
+  username: "hasankaya4839",
+  password: "Q4lk29bw"
 }
-===== OPTIONS =====
-First Name: HALIL
-Last Name: YARDIMCI
-Full Name: ZEYNEP ACAR
-Profile: {
-  firstName: 'FERIDE',
-  lastName: 'COLAK',
-  fullName: 'FERIDE COLAK',
-  gender: 'female',
-  username: 'feridecolak1516',
-  email: 'feridecolak1516@gmail.com',
-  password: 'E07044caaa6717262' // 16 characters
-}
- */
+*/
 ```
+
+### Reproducible output with `seed`
+
+Same seed → identical output across runs and across ESM/CJS builds:
+
+```javascript
+getProfile({seed: 42});                       // deterministic
+getProfile({seed: 42});                       // same as above
+getProfile({seed: "any-string"});             // string seeds also supported
+```
+
+Without a seed, randomness comes from Node's `crypto.randomInt` (cryptographically secure). With a seed, a deterministic 32-bit PRNG (`mulberry32`) is used — **not cryptographically secure**, by design.
+
+### Override + compose
+
+```javascript
+getProfile({
+    seed: 1,
+    gender: "female",
+    usernameOptions: {maxLength: 20, replacement: "."},
+    passwordOptions: {length: 12, special: true},
+});
+```
+
+## API
+
+All functions take a single options object. All parameters are optional.
+
+| Function       | Options                                                                                     |
+|----------------|---------------------------------------------------------------------------------------------|
+| `getGender`    | `{seed, gender}`                                                                            |
+| `getFirstName` | `{seed, gender}`                                                                            |
+| `getLastName`  | `{seed}`                                                                                    |
+| `getFullName`  | `{seed, gender}`                                                                            |
+| `getUsername`  | `{seed, gender, firstName, lastName, maxLength = 15, replacement = "_"}`                    |
+| `getPassword`  | `{seed, length = 8, uppercase = true, lowercase = true, numbers = true, special = false}`   |
+| `getProfile`   | `{seed, gender, usernameOptions = {}, passwordOptions = {}}`                                |
+
+- `gender`: `"male"` or `"female"`. Omit for random selection.
+- `seed`: number or string. Omit for cryptographically secure randomness.
+- `getUsername`: characters outside `[a-zA-Z0-9]` (including Turkish `ç`, `ğ`, `ı`, `ö`, `ş`, `ü`) are replaced with `replacement`. `maxLength` includes the 4-digit suffix and must be at least 6.
+- `getPassword`: at least one charset must be enabled, and `length` must be at least the number of enabled sets.
 
 ## License
 

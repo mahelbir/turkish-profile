@@ -1,80 +1,60 @@
-import path from "path";
-import {readFileSync, existsSync} from "fs";
-import {randomInt, randomBytes} from "crypto";
+import {
+    FILES,
+    createRng,
+    pickWeighted,
+    normalizeGender,
+    buildUsername,
+    buildPassword,
+} from "./helper.js";
 
-import paths from "./paths.js";
 
-
-const FILES = {
-    'first:male': fullPath('male_first.csv'),
-    'first:female': fullPath('female_first.csv'),
-    'last': fullPath('all_last.csv'),
-};
-
-function fullPath(filename) {
-    const dir = path.join(paths.dirname, "../../resources");
-    if (existsSync(dir))
-        return path.join(dir, filename);
-    return path.join(paths.dirname, "../resources", filename);
+export function getGender({seed, gender} = {}) {
+    return normalizeGender(gender, createRng(seed));
 }
 
-function getLine(filename) {
-    let selected = Math.random();
-    let nameFile = readFileSync(filename, 'utf-8').split('\n');
-    nameFile.shift();
-
-    for (let line of nameFile) {
-        let [name, cumulative] = line.split(",");
-        if (parseFloat(cumulative) > selected) {
-            return name.trim();
-        }
-    }
-    return "";
+export function getFirstName({seed, gender} = {}) {
+    return pickWeighted(FILES[getGender({seed, gender})], createRng(seed));
 }
 
-function getUsername(...names) {
-    const user = names.join('').replace(/[^a-zA-Z0-9]/g, '_');
-    return user.toLowerCase().substring(0, 11) + randomInt(100, 9999);
+export function getLastName({seed} = {}) {
+    return pickWeighted(FILES.last, createRng(seed));
 }
 
-function getEmail(username) {
-    const domains = ['gmail.com', 'hotmail.com', 'outlook.com'];
-    return username + "@" + domains[randomInt(0, 3)];
+export function getFullName({seed, gender} = {}) {
+    return `${getFirstName({seed, gender})} ${getLastName({seed})}`;
 }
 
-function getPassword(letters = null, length) {
-    const hex = randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
-    const first = letters?.[randomInt(0, letters?.length)]?.toUpperCase() || 'A';
-    return first + hex;
+export function getUsername({
+                                seed,
+                                gender,
+                                firstName,
+                                lastName,
+                                maxLength = 15,
+                                replacement = "_",
+                            } = {}) {
+    const first = firstName ?? getFirstName({seed, gender});
+    const last = lastName ?? getLastName({seed});
+    return buildUsername(createRng(seed), {firstName: first, lastName: last, maxLength, replacement});
 }
 
-function chooseGender(gender) {
-    gender = gender || (randomInt(2) === 0 ? 'female' : 'male');
-    if (gender !== 'male' && gender !== 'female') {
-        throw new Error("Only 'male' and 'female' are supported as gender");
-    }
-    return gender;
+export function getPassword({
+                                seed,
+                                length = 8,
+                                uppercase = true,
+                                lowercase = true,
+                                numbers = true,
+                                special = false,
+                            } = {}) {
+    return buildPassword(createRng(seed), {length, uppercase, lowercase, numbers, special});
 }
 
-export function getFirstName(gender = null) {
-    gender = chooseGender(gender);
-    return getLine(FILES['first:' + gender]);
-}
-
-export function getLastName() {
-    return getLine(FILES['last']);
-}
-
-export function getFullName(gender = null) {
-    return `${getFirstName(gender)} ${getLastName()}`;
-}
-
-export function getProfile(gender = null, passwordLength = 8) {
-    gender = chooseGender(gender);
-    const firstName = getFirstName(gender);
-    const lastName = getLastName();
+export function getProfile({seed, gender, usernameOptions = {}, passwordOptions = {}} = {}) {
+    gender = getGender({seed, gender});
+    const firstName = getFirstName({seed, gender});
+    const lastName = getLastName({seed});
     const fullName = `${firstName} ${lastName}`;
-    const username = getUsername(firstName, lastName);
+    const username = getUsername({seed, firstName, lastName, ...usernameOptions});
+    const password = getPassword({seed, ...passwordOptions});
 
     return {
         firstName,
@@ -82,7 +62,6 @@ export function getProfile(gender = null, passwordLength = 8) {
         fullName,
         gender,
         username,
-        email: getEmail(username),
-        password: getPassword(fullName.replaceAll(' ', '').toLowerCase(), passwordLength)
-    }
+        password,
+    };
 }

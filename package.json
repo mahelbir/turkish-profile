@@ -1,14 +1,33 @@
 {
   "name": "turkish-profile",
-  "version": "2.2.0",
-  "private": false,
-  "description": "Random Turkish name/profile generator with realistic probabilities",
+  "description": "Random Turkish name generator with realistic probabilities",
   "keywords": [
-    "turkish name",
-    "random name generator",
-    "random profile",
-    "turkish name list",
-    "Turkish profile"
+    "turkish",
+    "turkish-name",
+    "turkish-names",
+    "turkish-first-name",
+    "turkish-last-name",
+    "turkish-surname",
+    "turkish-profile",
+    "name-generator",
+    "profile-generator",
+    "password-generator",
+    "random-name",
+    "fake-name",
+    "random-profile",
+    "fake-profile",
+    "secure-password",
+    "random-password",
+    "seedable",
+    "deterministic",
+    "reproducible",
+    "faker",
+    "mock-data",
+    "türkçe",
+    "isim",
+    "ad",
+    "soyad",
+    "şifre"
   ],
   "repository": {
     "type": "git",
@@ -23,21 +42,24 @@
   ],
   "exports": {
     ".": {
-      "import": "./lib/esm/index.js",
-      "require": "./lib/cjs/index.js"
+      "import": "./lib/esm/index.mjs",
+      "require": "./lib/cjs/index.cjs"
     }
   },
+  "private": false,
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs",
-    "build:esm": "cross-env BABEL_ENV=esm babel ./src --out-dir ./lib/esm",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel ./src --out-dir ./lib/cjs",
-    "test": "node test/script.js"
+    "build:esm": "cross-env BABEL_ENV=esm babel ./src --out-dir ./lib/esm --out-file-extension .mjs",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel ./src --out-dir ./lib/cjs --out-file-extension .cjs",
+    "test": "node --test tests/*.test.js"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.3",
-    "@babel/preset-env": "^7.23.3",
-    "babel-plugin-transform-import-meta": "^2.2.1",
-    "cross-env": "^7.0.3"
-  }
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.5",
+    "babel-plugin-replace-import-extension": "^1.1.5",
+    "babel-plugin-transform-import-meta": "^2.3.3",
+    "cross-env": "^10.1.0"
+  },
+  "version": "2.2.0"
 }
