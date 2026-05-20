@@ -37,7 +37,6 @@
   },
   "license": "MIT",
   "author": "Mahmuthan Elbir",
-  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
@@ -51,9 +50,9 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "test": "node --test tests/*.test.js",
-    "relock": "rm -rf node_modules package-lock.json && NODE_ENV= npm install --include=dev --include=optional",
-    "prepublishOnly": "npm run build && npm test"
+    "test": "node --test",
+    "prepublishOnly": "npm run build && npm test",
+    "relock": "rm -rf node_modules package-lock.json && NODE_ENV= npm install --include=dev --include=optional"
   },
   "devDependencies": {
     "tsdown": "^0.22.0"

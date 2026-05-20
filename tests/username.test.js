@@ -38,6 +38,11 @@ describe("getUsername", () => {
         assert.match(u, /^[a-z_]+\d{4}$/);
     });
 
+    test("replacement string is not interpreted as regex template ($& must not leak source chars)", () => {
+        const u = getUsername({ seed: 1, firstName: "Ayşe", lastName: "Çelik", replacement: "$&" });
+        assert.ok(!/[a-z]*[şçığüö]/i.test(u), `non-alphanumeric leaked: '${u}'`);
+    });
+
     test("replacement char is configurable", () => {
         const u = getUsername({
             seed: 1,

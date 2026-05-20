@@ -1,15 +1,12 @@
 import { fileURLToPath } from "url";
 import path from "path";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync } from "fs";
 import { randomInt } from "crypto";
 
 
 const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
-const RESOURCES_DIR = (() => {
-    const built = path.join(DIRNAME, "../../resources");
-    return existsSync(built) ? built : path.join(DIRNAME, "../resources");
-})();
+const RESOURCES_DIR = path.join(DIRNAME, "../resources");
 
 export const FILES = {
     male: path.join(RESOURCES_DIR, "male_first.csv"),
@@ -106,7 +103,7 @@ export function buildUsername(rng, options) {
         throw new Error("maxLength must be at least 6");
     }
     const base = (options.firstName + options.lastName)
-        .replace(/[^a-zA-Z0-9]/g, options.replacement)
+        .replace(/[^a-zA-Z0-9]/g, () => options.replacement)
         .toLowerCase()
         .slice(0, options.maxLength - 4);
     return base + (1000 + rngInt(rng, 9000));
