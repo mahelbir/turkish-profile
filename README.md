@@ -1,5 +1,7 @@
 # Turkish Profile
 
+[![npm version](https://img.shields.io/npm/v/turkish-profile.svg)](https://www.npmjs.com/package/turkish-profile)
+
 Random Turkish name, username, and password generator with realistic frequency distributions. Optional gender filtering and seed-based reproducibility.
 
 ## Installation
