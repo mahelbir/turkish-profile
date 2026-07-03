@@ -6,30 +6,17 @@
   "keywords": [
     "turkish",
     "turkish-name",
-    "turkish-names",
-    "turkish-first-name",
-    "turkish-last-name",
     "turkish-surname",
-    "turkish-profile",
     "name-generator",
-    "profile-generator",
-    "password-generator",
     "random-name",
     "fake-name",
     "random-profile",
     "fake-profile",
-    "secure-password",
-    "random-password",
-    "seedable",
-    "deterministic",
-    "reproducible",
-    "faker",
-    "mock-data",
+    "birthdate",
     "türkçe",
     "isim",
     "ad",
-    "soyad",
-    "şifre"
+    "soyad"
   ],
   "repository": {
     "type": "git",
@@ -55,7 +42,7 @@
     "relock": "rm -rf node_modules package-lock.json && NODE_ENV= npm install --include=dev --include=optional"
   },
   "devDependencies": {
-    "tsdown": "^0.22.2"
+    "tsdown": "^0.22.3"
   },
   "engines": {
     "node": ">=18.0.0"

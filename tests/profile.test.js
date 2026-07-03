@@ -8,8 +8,13 @@ describe("getProfile", () => {
         const p = getProfile();
         assert.deepEqual(
             Object.keys(p).sort(),
-            ["firstName", "fullName", "gender", "lastName", "password", "username"].sort(),
+            ["birthdate", "firstName", "fullName", "gender", "lastName", "password", "username"].sort(),
         );
+    });
+
+    test("birthdate is a Date instance", () => {
+        assert.ok(getProfile().birthdate instanceof Date);
+        assert.ok(getProfile({ seed: 1 }).birthdate instanceof Date);
     });
 
     test("firstName, lastName, fullName, gender are non-empty strings", () => {
@@ -94,15 +99,18 @@ describe("getProfile", () => {
         assert.equal(p.password.length, 20);
     });
 
-    test("same seed produces identical full profile", () => {
-        const a = getProfile({ seed: 1 });
-        const b = getProfile({ seed: 1 });
+    test("same seed produces identical full profile (birthdate excluded — not seeded)", () => {
+        const { birthdate: ab, ...a } = getProfile({ seed: 1 });
+        const { birthdate: bb, ...b } = getProfile({ seed: 1 });
         assert.deepEqual(a, b);
+        assert.ok(ab instanceof Date && bb instanceof Date);
     });
 
-    test("same seed + same overrides → identical", () => {
+    test("same seed + same overrides → identical (birthdate excluded)", () => {
         const opts = { seed: "shared", gender: "female", password: { length: 16, special: true } };
-        assert.deepEqual(getProfile(opts), getProfile(opts));
+        const { birthdate: _a, ...a } = getProfile(opts);
+        const { birthdate: _b, ...b } = getProfile(opts);
+        assert.deepEqual(a, b);
     });
 
     test("different seeds produce different profiles", () => {

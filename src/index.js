@@ -5,6 +5,7 @@ import {
     normalizeGender,
     buildUsername,
     buildPassword,
+    buildBirthdate,
 } from "./helper.js";
 
 
@@ -48,13 +49,23 @@ export function getPassword({
     return buildPassword(createRng(seed), {length, uppercase, lowercase, numbers, special});
 }
 
-export function getProfile({seed, gender, usernameOptions = {}, passwordOptions = {}} = {}) {
+export function getBirthdate({
+                                 minAge = 20,
+                                 maxAge = 50,
+                                 minDate,
+                                 maxDate,
+                             } = {}) {
+    return buildBirthdate(createRng(), {minAge, maxAge, minDate, maxDate});
+}
+
+export function getProfile({seed, gender, usernameOptions = {}, passwordOptions = {}, birthdateOptions = {}} = {}) {
     gender = getGender({seed, gender});
     const firstName = getFirstName({seed, gender});
     const lastName = getLastName({seed});
     const fullName = `${firstName} ${lastName}`;
     const username = getUsername({seed, firstName, lastName, ...usernameOptions});
     const password = getPassword({seed, ...passwordOptions});
+    const birthdate = getBirthdate(birthdateOptions);
 
     return {
         firstName,
@@ -63,5 +74,6 @@ export function getProfile({seed, gender, usernameOptions = {}, passwordOptions 
         gender,
         username,
         password,
+        birthdate,
     };
 }

@@ -17,23 +17,25 @@ const cjs = cjsMod ? (cjsMod.default || cjsMod) : null;
 
 describe("build artifacts", () => {
     test("ESM build exposes the full public API", { skip: skipReason }, () => {
-        for (const fn of ["getFirstName", "getLastName", "getFullName", "getPassword", "getProfile"]) {
+        for (const fn of ["getFirstName", "getLastName", "getFullName", "getPassword", "getProfile", "getBirthdate"]) {
             assert.equal(typeof esm[fn], "function", `ESM missing ${fn}`);
         }
     });
 
     test("CJS build exposes the full public API", { skip: skipReason }, () => {
-        for (const fn of ["getFirstName", "getLastName", "getFullName", "getPassword", "getProfile"]) {
+        for (const fn of ["getFirstName", "getLastName", "getFullName", "getPassword", "getProfile", "getBirthdate"]) {
             assert.equal(typeof cjs[fn], "function", `CJS missing ${fn}`);
         }
     });
 
     test("ESM and CJS produce identical seeded output", { skip: skipReason }, () => {
         for (const seed of [0, 1, 42, "abc", "x", 99999]) {
-            assert.deepEqual(
-                esm.getProfile({ seed }),
-                cjs.getProfile({ seed }),
-                `mismatch for seed=${seed}`,
+            const { birthdate: eb, ...e } = esm.getProfile({ seed });
+            const { birthdate: cb, ...c } = cjs.getProfile({ seed });
+            assert.deepEqual(e, c, `mismatch for seed=${seed}`);
+            assert.ok(
+                eb instanceof Date && cb instanceof Date,
+                `birthdate should be a Date for seed=${seed}`,
             );
             assert.equal(
                 esm.getPassword({ seed, length: 16, special: true }),

@@ -21,6 +21,8 @@ const CHARSETS = {
     special: "!@#$%^&*()-_=+[]{};:,.<>?/",
 };
 
+const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
+
 const csvCache = new Map();
 
 function loadCsv(filename) {
@@ -139,4 +141,25 @@ export function buildPassword(rng, options) {
         [chars[i], chars[j]] = [chars[j], chars[i]];
     }
     return chars.join("");
+}
+
+function birthdateBound(value, name) {
+    if (!(value instanceof Date) || Number.isNaN(value.getTime())) {
+        throw new Error(`${name} must be a valid Date`);
+    }
+    return value.getTime();
+}
+
+export function buildBirthdate(rng, options) {
+    const now = Date.now();
+    const earliest = options.minDate != null
+        ? birthdateBound(options.minDate, "minDate")
+        : now - options.maxAge * MS_PER_YEAR;
+    const latest = options.maxDate != null
+        ? birthdateBound(options.maxDate, "maxDate")
+        : now - options.minAge * MS_PER_YEAR;
+    if (earliest > latest) {
+        throw new Error("Invalid birthdate range: earliest bound is after latest bound");
+    }
+    return new Date(earliest + rng() * (latest - earliest));
 }
