@@ -11,6 +11,16 @@ describe("getBirthdate", () => {
         assert.ok(!Number.isNaN(getBirthdate().getTime()));
     });
 
+    test("returns the start of the day (UTC midnight)", () => {
+        for (let i = 0; i < 200; i++) {
+            const d = getBirthdate();
+            assert.equal(d.getUTCHours(), 0, `hours: ${d.toISOString()}`);
+            assert.equal(d.getUTCMinutes(), 0, `minutes: ${d.toISOString()}`);
+            assert.equal(d.getUTCSeconds(), 0, `seconds: ${d.toISOString()}`);
+            assert.equal(d.getUTCMilliseconds(), 0, `ms: ${d.toISOString()}`);
+        }
+    });
+
     test("default age window is 20–50 years", () => {
         for (let i = 0; i < 200; i++) {
             const now = Date.now();

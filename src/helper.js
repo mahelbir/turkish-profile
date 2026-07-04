@@ -21,7 +21,8 @@ const CHARSETS = {
     special: "!@#$%^&*()-_=+[]{};:,.<>?/",
 };
 
-const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const MS_PER_YEAR = 365.25 * MS_PER_DAY;
 
 const csvCache = new Map();
 
@@ -161,5 +162,10 @@ export function buildBirthdate(rng, options) {
     if (earliest > latest) {
         throw new Error("Invalid birthdate range: earliest bound is after latest bound");
     }
-    return new Date(earliest + rng() * (latest - earliest));
+    const firstDay = Math.ceil(earliest / MS_PER_DAY);
+    const lastDay = Math.floor(latest / MS_PER_DAY);
+    const day = lastDay >= firstDay
+        ? firstDay + rngInt(rng, lastDay - firstDay + 1)
+        : Math.floor(earliest / MS_PER_DAY);
+    return new Date(day * MS_PER_DAY);
 }
