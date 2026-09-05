@@ -25,6 +25,7 @@
   "license": "MIT",
   "author": "Mahmuthan Elbir",
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.mjs",

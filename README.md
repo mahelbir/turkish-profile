@@ -1,6 +1,7 @@
 # Turkish Profile
 
 [![npm version](https://img.shields.io/npm/v/turkish-profile.svg)](https://www.npmjs.com/package/turkish-profile)
+[![license](https://img.shields.io/npm/l/turkish-profile.svg)](LICENSE)
 
 Random Turkish name, username, password, and birthdate generator with realistic frequency distributions. Optional gender filtering and seed-based reproducibility.
 
@@ -107,7 +108,3 @@ All functions take a single options object. All parameters are optional.
 
 If this project helps you, please consider giving it a [Star ⭐️](https://github.com/mahelbir/turkish-profile) on GitHub.
 This will encourage us to continue developing and maintaining this project.
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
