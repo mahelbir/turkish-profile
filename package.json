@@ -43,7 +43,7 @@
     "relock": "rm -rf node_modules package-lock.json && NODE_ENV= npm install --include=dev --include=optional"
   },
   "devDependencies": {
-    "tsdown": "^0.22.3"
+    "tsdown": "^0.23.0"
   },
   "engines": {
     "node": ">=18.0.0"
